@@ -1,0 +1,71 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Question - QUORA</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body class="simple-body">
+
+<header class="header">
+    <div class="header-inner">
+        <div class="logo">QUORA</div>
+    </div>
+</header>
+
+<div class="answer-wrapper">
+    <div class="edit-card simple-card">
+        <h2 class="simple-title">Edit Question</h2>
+
+        <!-- Error message (optional) -->
+        <p th:if="${error != null}" th:text="${error}" class="simple-error"></p>
+
+        <!-- Edit form -->
+        <form th:action="@{/questions/edit/{id}(id=${question.id})}" method="post">
+            <div class="simple-form-group">
+                <label for="title">Title</label>
+                <input id="title"
+                       class="simple-input"
+                       type="text"
+                       name="title"
+                       th:value="${question.title}"
+                       required />
+            </div>
+
+            <div class="simple-form-group">
+                <label for="content">Content</label>
+                <textarea id="content"
+                          class="simple-textarea"
+                          name="content"
+                          rows="3"
+                          required
+                          th:text="${question.content}"></textarea>
+            </div>
+
+            <div class="simple-form-group">
+                <label for="password">Confirm Password</label>
+                <input id="password"
+                       class="simple-password"
+                       type="password"
+                       name="password"
+                       required />
+            </div>
+
+            <button type="submit" class="simple-btn">Update</button>
+        </form>
+
+        <p style="text-align:center; margin-top: 10px;">
+            <a class="back-btn" th:href="@{/questions}">
+                ◀ Back
+            </a>
+        </p>
+
+    </div>
+</div>
+<form action="/quora/logout" method="post" style="position:absolute; right:20px; top:20px;">
+    <button type="submit" id="logout">
+        Logout
+    </button>
+</form>
+</body>
+</html>

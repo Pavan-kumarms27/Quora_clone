@@ -1,0 +1,3 @@
+netstat -ano | findstr 8085
+
+taskkill /PID 12345 /F

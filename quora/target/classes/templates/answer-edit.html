@@ -1,0 +1,61 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Answer - QUORA</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body class="simple-body">
+
+<header class="header">
+    <div class="header-inner">
+        <div class="logo">QUORA</div>
+    </div>
+</header>
+
+<div class="answer-wrapper">
+    <div class="edit-card">
+        <h2 class="simple-title">Edit Answer</h2>
+
+        <!-- Error message -->
+        <p th:if="${error != null}" th:text="${error}" class="simple-error"></p>
+
+        <!-- Edit form -->
+        <form th:action="@{/answers/edit/{id}(id=${answer.id}, questionId=${questionId})}"
+              method="post">
+            <div class="simple-form-group">
+                <label for="content">Content</label>
+                <textarea id="content" class="simple-textarea"
+                          name="content"
+                          rows="4"
+                          required
+                          th:text="${answer.content}"></textarea>
+            </div>
+
+            <div class="simple-form-group">
+                <label for="password">Confirm Password</label>
+                <input id="password" class="simple-password"
+                       type="password"
+                       name="password"
+                       required />
+            </div>
+
+            <button type="submit" class="simple-btn">Update</button>
+        </form>
+
+        <p class="simple-footer">
+            <p style="text-align:center;">
+    <a class="back-btn" th:href="@{/answers(questionId=${questionId})}">
+        ◀ Back
+    </a>
+		</p>
+        </p>
+    </div>
+</div>
+<form action="/quora/logout" method="post" style="position:absolute; right:20px; top:20px;">
+    <button type="submit" id="logout">
+        Logout
+    </button>
+</form>
+</body>
+</html>

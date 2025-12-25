@@ -1,0 +1,61 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - QUORA</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body class="simple-body">
+
+<header class="header">
+    <div class="header-inner">
+        <div class="logo">QUORA</div>
+    </div>
+</header>
+
+<div class="simple-wrapper">
+    <div class="simple-card">
+        <h2 class="simple-title">Create Account</h2>
+
+       
+        <form th:action="@{/register}" th:object="${user}" method="post">
+
+            <!-- USERNAME FIELD -->
+            <div class="simple-form-group">
+                <label>Username</label>
+                <input class="simple-input" th:field="*{username}" placeholder="Enter username"/>
+                <span class="simple-error"
+                      th:if="${#fields.hasErrors('username')}"
+                      th:errors="*{username}"></span>
+            </div>
+
+            <!-- EMAIL FIELD -->
+            <div class="simple-form-group">
+                <label>Email</label>
+                <input class="simple-input" th:field="*{email}" type="email" placeholder="Enter email"/>
+                <span class="simple-error"
+                      th:if="${#fields.hasErrors('email')}"
+                      th:errors="*{email}"></span>
+            </div>
+
+            <!-- PASSWORD FIELD -->
+            <div class="simple-form-group">
+                <label>Password</label>
+                <input class="simple-password" th:field="*{password}" type="password" placeholder="Enter password"/>
+                <span class="simple-error"
+                      th:if="${#fields.hasErrors('password')}"
+                      th:errors="*{password}"></span>
+            </div>
+
+            <button type="submit" class="simple-btn">Sign Up</button>
+        </form>
+
+        <p class="simple-footer">
+            Already have an account?
+            <a th:href="@{/login}">Login</a>
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - QUORA</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body class="simple-body">
+
+<header class="header">
+    <div class="header-inner">
+        <div class="logo">QUORA</div>
+    </div>
+</header>
+<div th:if="${param.logoutSuccess}">
+    <div class="alert alert-logout">
+        Logout Successful 👋
+    </div>
+</div>
+
+<div th:if="${param.error}">
+    <div class="alert alert-error">
+        Invalid username or password ❌
+    </div>
+</div>
+
+<div th:if="${param.registered}">
+    <div class="alert alert-success">
+        Registration Successful 🎉 Please login!
+    </div>
+</div>
+
+<div class="simple-wrapper">
+    <div class="simple-card">
+        <h2 class="simple-title">Login</h2>
+
+        <form th:action="@{/login}" method="post">
+            <div class="simple-form-group">
+                <label>Username</label>
+                <input class="simple-input" type="text" name="username" required />
+            </div>
+            <div class="simple-form-group">
+                <label>Password</label>
+                <input class="simple-password" type="password" name="password" required />
+            </div>
+            <button type="submit" class="simple-btn">Login</button>
+        </form>
+
+        <p class="simple-footer">
+            No account?
+            <a th:href="@{/register}">Register here</a>
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

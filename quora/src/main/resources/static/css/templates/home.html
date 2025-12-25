@@ -1,0 +1,104 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>QUORA - Questions</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="header-inner">
+        <div class="logo">QUORA</div><br>
+	<div class="user-info">
+    	<span class="wel_name">Welcome , <span th:text="${username}" class="wel_name"></span></span>
+	</div>  
+	<form action="/quora/logout" method="post"
+      style="position:absolute; right:20px; top:20px;">
+    <button type="submit" id="logout">
+        Logout
+    </button>
+</form>
+    </div>
+</header>
+<center>
+<div th:if="${param.loginSuccess}">
+    <div class="alert alert-success">
+        Login successful 🎉
+    </div>
+</div>
+</center>
+
+<!-- MAIN PAGE -->
+<div class="page">
+    <!-- LEFT: QUESTIONS LIST -->
+    <section class="questions-column">
+
+        <p th:if="${error != null}" th:text="${error}" class="error-text"></p>
+
+        <div th:each="q : ${questions}" class="question-card">
+            <h2 class="question-title" th:text="${q.title}">Question title</h2>
+
+            <div class="question-meta">
+                <span>Asked by </span>
+                <span th:text="${q.authorName}">username</span>
+            </div>
+
+            <p class="question-content" th:text="${q.content}">
+                Question content goes here...
+            </p>
+
+            <div class="question-actions">
+                <!-- VIEW / ANSWER -->
+                <a class="action-btn" th:href="@{/answers(questionId=${q.id})}">
+    				View / Answer
+				</a>
+                
+                <!-- EDIT + DELETE ONLY FOR OWNER -->
+                <span th:if="${q.authorName == username}" class="question-actions-right">
+                    <a class="action-btn" th:href="@{/questions/edit/{id}(id=${q.id})}">
+                        Edit
+                    </a>
+
+                    <form th:action="@{/questions/delete/{id}(id=${q.id})}"
+                          method="post"
+                          style="display:inline-flex; gap:6px; align-items:center;">
+                        <input class="simple-password"
+                               type="password"
+                               name="password"
+                               placeholder="Password"
+                               required>
+
+                        <button class="action-btn delete" type="submit">
+                            Delete
+                        </button>
+                    </form>
+                </span>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- RIGHT: ASK QUESTION CARD -->
+    <aside class="ask-column">
+        <div class="ask-card">
+            <h3 class="ask-title">ASK QUESTIONS</h3>
+
+            <form th:action="@{/questions/create}" method="post">
+                <textarea class="ask-textarea"
+                          name="content"
+                          placeholder="Write your questions here......"
+                          required></textarea>
+
+                <input type="hidden" name="title" value="question">
+
+                <button type="submit" class="primary-btn">Post Question</button>
+            </form>
+        </div>
+    </aside>
+
+</div>
+
+</body>
+</html>

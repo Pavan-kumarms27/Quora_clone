@@ -1,0 +1,95 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Answers - QUORA</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body class="simple-body">
+
+<!-- HEADER -->
+<header class="header">
+    <div class="header-inner">
+        <div class="logo">QUORA</div>
+
+        <!-- Logout -->
+        <form action="/quora/logout" method="post" style="position:absolute; right:20px; top:20px;">
+    <button type="submit" id="logout">Logout</button>
+</form>
+    </div>
+</header>
+
+<div class="answer-wrapper">
+
+    <!-- QUESTION CARD -->
+    <div class="answer-question-card">
+        <h2 class="answer-question-title" th:text="${question.title}">Question title</h2>
+        <div class="answer-question-meta">
+            Asked by <span th:text="${question.authorName}">user</span>
+        </div>
+        <p class="answer-question-body" th:text="${question.content}">
+            Question content
+        </p>
+    </div>
+
+    <p th:if="${error != null}" th:text="${error}" class="simple-error"></p>
+
+    <!-- ANSWERS LIST -->
+    <div class="answer-question-card">
+        <h3 class="answer-list-title">Answers</h3>
+
+        <p th:if="${#lists.isEmpty(answers)}" style="font-size:13px; color:#6b7280;">
+            No answers yet. Be the first to answer ✨
+        </p>
+
+        <ul>
+            <li th:each="ans : ${answers}" class="answer-item">
+                <span class="answer-author" th:text="${ans.authorName}">user</span>:
+                <span th:text="${ans.content}"></span>
+
+                <!-- Only show edit/delete to owner -->
+                <span class="answer-actions" th:if="${ans.authorName == username}">
+                    <a class="action-btn"
+                       th:href="@{/answers/edit/{id}(id=${ans.id}, questionId=${question.id})}">
+                        Edit
+                    </a>
+
+                    <form th:action="@{/answers/delete/{id}(id=${ans.id})}"
+                          method="post"
+                          style="display:inline;">
+                        <input type="hidden" name="questionId" th:value="${question.id}" />
+                        <input class="simple-password"
+                               type="password"
+                               name="password"
+                               placeholder="Password"
+                               required
+                               style="width:140px; font-size:11px; margin-right:4px;" />
+                        <button type="submit" class="action-btn delete">
+                            Delete
+                        </button>
+                    </form>
+                </span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- WRITE ANSWER -->
+    <div class="answer-question-card">
+        <h3 class="answer-list-title">Write your answer</h3>
+
+        <form th:action="@{/answers/create}" method="post">
+            <input type="hidden" name="questionId" th:value="${question.id}" />
+            <textarea class="simple-textarea"
+                      name="content"
+                      rows="3"
+                      required></textarea>
+            <button type="submit" class="simple-btn">Submit Answer</button>
+        </form>
+    </div>
+
+    <a class="back-btn" th:href="@{/questions}">← Back to Questions</a>
+
+</div>
+
+</body>
+</html>
